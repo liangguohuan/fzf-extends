@@ -33,7 +33,7 @@ fo() {
 # ex: ff word1 word2 ... (even part of a file name)
 ff() {
   local files filesvi
-  files="$(fasd -Rfl "$1" | fzf --query="$*" -1 -0 --no-sort -m)"
+  IFS=$'\n' files="$(fasd -Rfl "$1" | fzf --query="$*" -1 -0 --no-sort -m)"
   for file in $(echo "$files"); do
     if [ -f "$file"  ]; then
       file -b "$file" | grep -q "text" && filesvi="$filesvi $file" || xdg-open "$file"
