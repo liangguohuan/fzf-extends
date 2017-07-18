@@ -22,9 +22,9 @@ fo() {
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
     if [ "$key" = ctrl-o ]; then
-      xdg-open "$file"
+      xdg-open "$file" &>/dev/null 
     else
-      file -b "$file" | grep -q "text" && vi "$file" || xdg-open "$file"
+      file -b "$file" | grep -q "text" && vi "$file" || xdg-open "$file" &>/dev/null
     fi
   fi
 }
@@ -36,7 +36,7 @@ ff() {
   IFS=$'\n' files="$(fasd -Rfl "$1" | fzf --query="$*" -1 -0 --no-sort -m)"
   for file in $(echo "$files"); do
     if [ -f "$file"  ]; then
-      file -b "$file" | grep -q "text" && filesvi="$filesvi $file" || xdg-open "$file"
+      file -b "$file" | grep -q "text" && filesvi="$filesvi $file" || xdg-open "$file" &>/dev/null
     fi
   done
   if [ -n "$filesvi" ]; then
@@ -136,7 +136,7 @@ fzf-htmldocs-search() {
   matchline=$(head -2 <<< "$out" | tail -1)
   if [ "$key" = enter ]; then
     IFS=$' ' read file line linecontent <<< $(echo $matchline | awk -F ':' '{printf "%s %s %s",$1,$2,$3}')
-    xdg-open "$sdir/$file" >/dev/null
+    xdg-open "$sdir/$file" &>/dev/null
     if [ -n "$linecontent" ]; then
       echo ${linecontent:0:20} | xsel -b -i
       sleep 1
