@@ -9,8 +9,8 @@ is_in_git_repo() {
 #=> Fzf extends
 #=======================================================================================================================
 #=> fasd
-alias z="fd"
-alias j="fd"
+alias z="fcd"
+alias j="fcd"
 
 # Modified version where you can press
 #   - CTRL-O to open with `xdg-open` command,
@@ -44,9 +44,9 @@ ff() {
   fi
 }
 
-# fd - fuzzy cd from anywhere
+# fcd - fuzzy cd from anywhere
 # ex: cd word (even part of a dir name)
-fd() {
+fcd() {
   local dir
   dir="$(fasd -Rdl "$1" | fzf --query="$*" --cycle --bind 'tab:down,btab:up' -1 -0 --no-sort)" && cd "${dir}" || return 1
 }
@@ -149,7 +149,7 @@ fzf-htmldocs-search() {
 #=======================================================================================================================
 #=> auto complete
 #=======================================================================================================================
-_autocomplet_arrlist=(j z fo ff fd fb)
+_autocomplet_arrlist=(j z fo ff fcd fb)
 zic-completion() {
   setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
   local tokens cmd
