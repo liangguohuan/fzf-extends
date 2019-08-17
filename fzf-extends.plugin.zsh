@@ -138,9 +138,11 @@ fzf-htmldocs-search() {
     IFS=$' ' read file line linecontent <<< $(echo $matchline | awk -F ':' '{printf "%s %s %s",$1,$2,$3}')
     xdg-open "$sdir/$file" &>/dev/null
     if [ -n "$linecontent" ]; then
-      echo ${linecontent:0:20} | xsel -b -i
+      echo ${linecontent:0:20} | clipcopy
       sleep 1
-      xdotool key --delay 300 ctrl+f ctrl+v
+      if type xdotool &> /dev/null; then
+          xdotool key --delay 300 ctrl+f ctrl+v
+      fi
     fi
     echo ":"$linecontent
   fi
