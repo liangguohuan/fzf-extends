@@ -5,6 +5,13 @@ is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
 
+# compatible
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  OPENCOMD=open
+else
+  OPENCOMD=xdg-open
+fi
+
 #=======================================================================================================================
 #=> Fzf extends
 #=======================================================================================================================
@@ -22,9 +29,9 @@ fo() {
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
     if [ "$key" = ctrl-o ]; then
-      xdg-open "$file" &>/dev/null 
+      $OPENCOMD "$file" &>/dev/null 
     else
-      file -b "$file" | grep -q "text" && vi "$file" || xdg-open "$file" &>/dev/null
+      file -b "$file" | grep -q "text" && vi "$file" || $OPENCOMD "$file" &>/dev/null
     fi
   fi
 }
@@ -36,7 +43,7 @@ ff() {
   IFS=$'\n' files="$(fasd -Rfl "$1" | fzf --query="$*" -1 -0 --no-sort -m)"
   for file in $(echo "$files"); do
     if [ -f "$file"  ]; then
-      file -b "$file" | grep -q "text" && filesvi="$filesvi $file" || xdg-open "$file" &>/dev/null
+      file -b "$file" | grep -q "text" && filesvi="$filesvi $file" || $OPENCOMD "$file" &>/dev/null
     fi
   done
   if [ -n "$filesvi" ]; then
@@ -136,7 +143,7 @@ fzf-htmldocs-search() {
   matchline=$(head -2 <<< "$out" | tail -1)
   if [ "$key" = enter ]; then
     IFS=$' ' read file line linecontent <<< $(echo $matchline | awk -F ':' '{printf "%s %s %s",$1,$2,$3}')
-    xdg-open "$sdir/$file" &>/dev/null
+    $OPENCOMD "$sdir/$file" &>/dev/null
     if [ -n "$linecontent" ]; then
       echo ${linecontent:0:20} | clipcopy
       sleep 1
