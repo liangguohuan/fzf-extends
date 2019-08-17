@@ -165,7 +165,11 @@ zic-completion() {
   tokens=(${(z)LBUFFER})
   cmd=${tokens[1]}
   if [ ${_autocomplet_arrlist[(r)$(echo $cmd)]} ]; then
-    [ "${LBUFFER:${#cmd}:1}" = " " ] && xdotool key ctrl+m || zle ${__zic_default_completion:-expand-or-complete}
+    if type xdotool &> /dev/null; then
+        [ "${LBUFFER:${#cmd}:1}" = " " ] && xdotool key ctrl+m || zle ${__zic_default_completion:-expand-or-complete}
+    else
+        [ "${LBUFFER:${#cmd}:1}" = " " ] && cliclick kp:enter || zle ${__zic_default_completion:-expand-or-complete}
+    fi
   else
     zle ${__zic_default_completion:-expand-or-complete}
   fi
