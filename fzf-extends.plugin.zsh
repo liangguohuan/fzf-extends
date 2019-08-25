@@ -16,8 +16,8 @@ fi
 #=> Fzf extends
 #=======================================================================================================================
 #=> fasd
-alias z="fcd"
 alias j="fcd"
+alias z="fgd"
 
 # Modified version where you can press
 #   - CTRL-O to open with `xdg-open` command,
@@ -51,11 +51,18 @@ ff() {
   fi
 }
 
-# fcd - fuzzy cd from anywhere
+# fcd - fuzzy cd from anywhere via fasd result
 # ex: cd word (even part of a dir name)
 fcd() {
   local dir
   dir="$(fasd -Rdl "$1" | fzf --query="$*" --cycle --bind 'tab:down,btab:up' -1 -0 --no-sort)" && cd "${dir}" || return 1
+}
+
+# fcd - fuzzy cd from anywhere via fd result
+# ex: cd word (even part of a dir name)
+fgd() {
+  local dir
+  dir="$(fd -t d "$1" | fzf --query="$*" --cycle --bind 'tab:down,btab:up' -1 -0 --no-sort)" && cd "${dir}" || return 1
 }
 
 # fb - fuzzy cd from ~/.bookmarks
@@ -158,7 +165,7 @@ fzf-htmldocs-search() {
 #=======================================================================================================================
 #=> auto complete
 #=======================================================================================================================
-_autocomplet_arrlist=(j z fo ff fcd fb)
+_autocomplet_arrlist=(j z fb fo ff fcd fgd)
 zic-completion() {
   setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
   local tokens cmd

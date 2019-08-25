@@ -5,6 +5,13 @@
 - [fzf](https://github.com/junegunn/fzf) A command-line fuzzy finder written in Go
 - [fasd](https://github.com/clvv/fasd) offers quick access to files and directories, inspired by autojump, z and v  
 - [ag](https://github.com/ggreer/the_silver_searcher#linux) A code-searching tool similar to ack, but faster
+- [fd](https://github.com/sharkdp/fd) A simple, fast and user-friendly alternative to 'find'
+
+## j 
+alias fcd
+
+## z 
+alias fgd
 
 ## fo
 Open file with smart  
@@ -15,13 +22,17 @@ Open file with smart
 Fuzzy open with vim from anywhere if filetype is text else open with xdg-open  
 `ff word1 word2 ...` (even part of a file name)
 
-## fd
-Fuzzy cd from anywhere  
-`fd word ...` (even part of a dir name)
-
 ## fb
 Fuzzy cd from ~/.bookmarks  
 `fb word ...` (even part of a dir name)
+
+## fcd
+Fuzzy cd from anywhere via fasd result  
+`fcd word ...` (even part of a dir name)
+
+## fgd
+Fuzzy cd from anywhere via fd result  
+`fgd word ...` (even part of a dir name)
 
 ## fzf-gitlog-widget
 Need git alias 
